@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!--Cores da aplicação-->
+    <color name="primary">#15CD97</color>"
+    <color name="primaryDark">#189470</color>
+
+    <color name="secondary">#6BC3A9</color>
+    <color name="secondaryDark">#00DA9F</color>">
+
+    <color name="background">#7C7F7F</color>
+
+</resources>
