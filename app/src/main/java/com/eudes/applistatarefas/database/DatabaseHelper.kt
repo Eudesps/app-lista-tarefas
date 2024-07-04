@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
 
 class DatabaseHelper(context: Context): SQLiteOpenHelper(context, NOME_BANCO_DADOS, null, VERSAO_BANCO_DADOS) {
+
     companion object {
         const val NOME_BANCO_DADOS = "ListaTarefas.db"
         const val VERSAO_BANCO_DADOS = 1

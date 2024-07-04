@@ -8,6 +8,7 @@ import com.eudes.applistatarefas.model.Tarefa
 class TarefaDAO(context: Context): ITarefaDAO {
     private val escrita = DatabaseHelper(context).writableDatabase
     private val leitura = DatabaseHelper(context).readableDatabase
+
     override fun salvar(tarefa: Tarefa): Boolean {
 
         try {
@@ -23,6 +24,7 @@ class TarefaDAO(context: Context): ITarefaDAO {
             return false
         }
         return true
+
     }
 
     override fun atualizar(tarefa: Tarefa): Boolean {
@@ -34,6 +36,30 @@ class TarefaDAO(context: Context): ITarefaDAO {
     }
 
     override fun listar(): List<Tarefa> {
-        TODO("Not yet implemented")
+        val listatarefas = mutableListOf<Tarefa>()
+
+        //consulta (faz a seleção) o banco de dados
+        val sql = "SELECT ${DatabaseHelper.COLUNA_ID_TAREFA}, ${DatabaseHelper.COLUNA_DESCICAO}," +
+                " strftime('%d/%m/%Y %H:%M', ${DatabaseHelper.COLUNA_DATA_CADASTRO}) AS ${DatabaseHelper.COLUNA_DATA_CADASTRO} " +
+                "FROM ${DatabaseHelper.NOME_TABELA_TAREFAS}"
+
+        // usa o cursor para recuperar os dados
+        val cursor = leitura.rawQuery(sql, null)
+
+        //captura os indices de cada coluna
+        val indiceId = cursor.getColumnIndex(DatabaseHelper.COLUNA_ID_TAREFA)
+        val indiceDescricao = cursor.getColumnIndex(DatabaseHelper.COLUNA_DESCICAO)
+        val indiceData = cursor.getColumnIndex(DatabaseHelper.COLUNA_DATA_CADASTRO)
+
+        //depois percorre utilizando o while
+        while (cursor.moveToNext()){
+            val idTarefa = cursor.getInt(indiceId)
+            val descricao = cursor.getString(indiceDescricao)
+            val data_cadastro = cursor.getString(indiceData)
+
+            listatarefas.add(Tarefa(idTarefa, descricao, data_cadastro))
+        }
+        
+        return listatarefas
     }
 }

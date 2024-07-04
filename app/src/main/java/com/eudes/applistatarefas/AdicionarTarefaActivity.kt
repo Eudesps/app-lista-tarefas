@@ -27,10 +27,14 @@ class AdicionarTarefaActivity : AppCompatActivity() {
         binding.btnSalvar.setOnClickListener {
             if (binding.editTextAdicionar.text.toString().isNotEmpty()){
                 val descricao = binding.editTextAdicionar.text.toString()
+                //criando uma conexão com o banco de dados
                 val tarefaDAO = TarefaDAO(this)
                 val tarefa = Tarefa(-1, descricao, "")
-                tarefaDAO.salvar(tarefa)
-                finish()
+
+                if(tarefaDAO.salvar(tarefa)){
+                    Toast.makeText(this, "Tarefa salva com sucesso", Toast.LENGTH_SHORT).show()
+                    finish()
+                }
             }else{
                 Toast.makeText(this, "Adicione uma tarefa para salvar", Toast.LENGTH_SHORT).show()
             }
