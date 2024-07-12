@@ -28,11 +28,44 @@ class TarefaDAO(context: Context): ITarefaDAO {
     }
 
     override fun atualizar(tarefa: Tarefa): Boolean {
-        TODO("Not yet implemented")
+        try {
+            val conteudo = ContentValues()
+            conteudo.put("${DatabaseHelper.COLUNA_DESCICAO}", tarefa.descricao)
+
+            //onde essa atualização vai ser salva
+            val args = arrayOf(tarefa.id_tarefa.toString())
+
+            escrita.update(
+                DatabaseHelper.NOME_TABELA_TAREFAS,
+                conteudo,
+                "${DatabaseHelper.COLUNA_ID_TAREFA} = ?",
+                args
+            )
+            Log.i("info.db", "Item atualizado com sucesso")
+        }catch (e: Exception){
+            e.printStackTrace()
+            Log.i("info.db", "Erro ao atualizar tarefa: $e")
+            return false
+        }
+        return true
     }
 
     override fun remover(id_tarefa: Int): Boolean {
-        TODO("Not yet implemented")
+        val args = arrayOf(id_tarefa.toString())
+        try {
+            escrita.delete(
+                DatabaseHelper.NOME_TABELA_TAREFAS,
+                "${DatabaseHelper.COLUNA_ID_TAREFA} =  ?",
+                args
+            )
+
+            Log.i("info.db", "Item excluído com sucesso")
+        }catch (e: Exception){
+            e.printStackTrace()
+            Log.i("info.db", "Erro ao excluir tarefa: $e")
+            return false
+        }
+        return true
     }
 
     override fun listar(): List<Tarefa> {

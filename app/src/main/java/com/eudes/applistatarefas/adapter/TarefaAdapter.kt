@@ -6,7 +6,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.eudes.applistatarefas.databinding.ItemTarefaBinding
 import com.eudes.applistatarefas.model.Tarefa
 
-class TarefaAdapter() : RecyclerView.Adapter<TarefaAdapter.TarefaViewHolder>() {
+class TarefaAdapter(
+    private val onCliqueExcluir: (Int) -> Unit,
+    private val onCliqueAtualizar: (tarefa: Tarefa) -> Unit
+) : RecyclerView.Adapter<TarefaAdapter.TarefaViewHolder>() {
 
     private var listaTarefas: List<Tarefa> = emptyList()
 
@@ -27,6 +30,13 @@ class TarefaAdapter() : RecyclerView.Adapter<TarefaAdapter.TarefaViewHolder>() {
         fun bind(tarefa: Tarefa){
             binding.textDescricao.text = tarefa.descricao
             binding.textData.text = tarefa.dataCadastro
+
+            binding.btnExcluir.setOnClickListener {
+                onCliqueExcluir(tarefa.id_tarefa)
+            }
+            binding.btnEditar.setOnClickListener {
+                onCliqueAtualizar(tarefa)
+            }
         }
 
     }
